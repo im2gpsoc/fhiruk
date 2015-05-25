@@ -1,0 +1,43 @@
+
+SDS LDAP Org Types
+
+nhsOrgType : Appliance Contractor,
+nhsOrgType : Application Service Provider,
+nhsOrgType : BMS Call Centre Establishment,
+nhsOrgType : Branch Surgery,
+nhsOrgType : Care Trust Site,
+nhsOrgType : Care Trust,
+nhsOrgType : Directorate of Health and Social Care,
+nhsOrgType : Dummy,
+nhsOrgType : EXECUTIVE AGENCY PROGRAMME - DEPARTMENT,
+nhsOrgType : EXECUTIVE AGENCY PROGRAMME,
+nhsOrgType : EXECUTIVE AGENCY SITE,
+nhsOrgType : EXECUTIVE AGENCY,
+nhsOrgType : GP Practice,
+nhsOrgType : General Dental Practice,
+nhsOrgType : Hospice,
+nhsOrgType : Independent Provider,
+ 
+nhsOrgType : Independent Sector Healthcare Provider HQ,
+nhsOrgType : Independent Sector Healthcare Provider,
+nhsOrgType : IT Cluster,
+nhsOrgType : LOCAL AUTHORITY SITE,
+nhsOrgType : LOCAL AUTHORITY,
+nhsOrgType : Local Service Provider,
+nhsOrgType : MoD Hospital,
+nhsOrgType : National Application Service Provider,
+nhsOrgType : NHS Support Agency
+nhsOrgType : NHS Trust Site,
+nhsOrgType : NHS Trust,
+nhsOrgType : OSA Site,
+nhsOrgType : Other NHS Body,
+nhsOrgType : Other Statutory Authority,
+nhsOrgType : Oxygen Concentrator Supplier,
+nhsOrgType : Pharmacy
+nhsOrgType : Pharmacy HQ
+nhsOrgType : Primary Care Trust [PCT]
+nhsOrgType : Primary Care Trust Site
+nhsOrgType : Prisons
+nhsOrgType : Special Health Authority Site,
+nhsOrgType : Special Health Authority,
+nhsOrgType : Strategic Health Authority,

@@ -8,7 +8,7 @@ using Newtonsoft.Json.Converters;
 
 namespace FHIRUK.Resources
 {
-    public class Organization
+    public class Organization : FhirCore
     {
         public Identifiers Identifier { get; set; }  //  <!-- ?? 0..* Identifier Identifies this organization  across multiple systems -->
         public String Name { get; set; }    //  <!-- ?? 0..1 Name used for the organization -->

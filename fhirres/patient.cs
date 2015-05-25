@@ -12,6 +12,12 @@ namespace FHIRUK.Resources
 {
     public class Patient : FhirCore
     {
+        public Patient()
+        {
+            resourceType = "Patient";
+        }
+
+        public String resourceType { get; internal set; }
         public Identifiers Identifier { get; set; }  //  <!-- 0..* Identifier An identifier for the person as this patient § -->
         public HumanNames Name { get; set; } //  <!-- 0..* HumanName A name associated with the patient § -->
         public Contacts Telecom { get; set; }    //  <!-- 0..* Contact A contact detail for the individual § -->
