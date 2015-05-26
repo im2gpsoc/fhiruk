@@ -27,7 +27,7 @@ namespace fhirtestdatagen
         private List<SDSConfigNodeLines> gpItems = new List<SDSConfigNodeLines>();
         private List<SDSConfigNode> gpKeyValueObjects = new List<SDSConfigNode>();
 
-        private ListViewColumnSorter lvwColumnSorter = null;
+        private ListViewColumnSorter lvwColumnSorter = new ListViewColumnSorter();
 
         HumanNameGenerator genNames = null;
         AddressGenerator genAddresses = null;

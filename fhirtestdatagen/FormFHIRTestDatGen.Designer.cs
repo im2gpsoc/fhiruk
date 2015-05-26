@@ -50,12 +50,12 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelTabs = new System.Windows.Forms.Panel();
-            this.splitter1 = new System.Windows.Forms.Splitter();
-            this.panelJSON = new System.Windows.Forms.Panel();
-            this.textBoxJSON = new System.Windows.Forms.TextBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.butCopyJSON = new System.Windows.Forms.ToolStripButton();
             this.tabsMain = new System.Windows.Forms.TabControl();
+            this.tabPatients = new System.Windows.Forms.TabPage();
+            this.toolStripPatients = new System.Windows.Forms.ToolStrip();
+            this.butGenerate = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.butExportPatientsToFile = new System.Windows.Forms.ToolStripButton();
             this.tabOrganizations = new System.Windows.Forms.TabPage();
             this.listViewOrgs = new System.Windows.Forms.ListView();
             this.chId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -78,22 +78,22 @@
             this.butAllOrgs = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.butExportOrgsToFile = new System.Windows.Forms.ToolStripButton();
-            this.tabPatients = new System.Windows.Forms.TabPage();
-            this.toolStripPatients = new System.Windows.Forms.ToolStrip();
-            this.butGenerate = new System.Windows.Forms.ToolStripButton();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.panelJSON = new System.Windows.Forms.Panel();
+            this.textBoxJSON = new System.Windows.Forms.TextBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.butCopyJSON = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.butExportPatientsToFile = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             this.panelTabs.SuspendLayout();
-            this.panelJSON.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.tabsMain.SuspendLayout();
-            this.tabOrganizations.SuspendLayout();
-            this.toolStripOrgs.SuspendLayout();
             this.tabPatients.SuspendLayout();
             this.toolStripPatients.SuspendLayout();
+            this.tabOrganizations.SuspendLayout();
+            this.toolStripOrgs.SuspendLayout();
+            this.panelJSON.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -242,60 +242,6 @@
             this.panelTabs.Size = new System.Drawing.Size(1493, 452);
             this.panelTabs.TabIndex = 3;
             // 
-            // splitter1
-            // 
-            this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitter1.Location = new System.Drawing.Point(0, 355);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(1493, 3);
-            this.splitter1.TabIndex = 6;
-            this.splitter1.TabStop = false;
-            // 
-            // panelJSON
-            // 
-            this.panelJSON.Controls.Add(this.textBoxJSON);
-            this.panelJSON.Controls.Add(this.toolStrip1);
-            this.panelJSON.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelJSON.Location = new System.Drawing.Point(0, 358);
-            this.panelJSON.Name = "panelJSON";
-            this.panelJSON.Size = new System.Drawing.Size(1493, 94);
-            this.panelJSON.TabIndex = 5;
-            // 
-            // textBoxJSON
-            // 
-            this.textBoxJSON.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.textBoxJSON.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxJSON.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxJSON.ForeColor = System.Drawing.Color.AntiqueWhite;
-            this.textBoxJSON.Location = new System.Drawing.Point(53, 0);
-            this.textBoxJSON.Multiline = true;
-            this.textBoxJSON.Name = "textBoxJSON";
-            this.textBoxJSON.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxJSON.Size = new System.Drawing.Size(1440, 94);
-            this.textBoxJSON.TabIndex = 2;
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(48, 32);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.butCopyJSON});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(53, 94);
-            this.toolStrip1.TabIndex = 3;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // butCopyJSON
-            // 
-            this.butCopyJSON.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.butCopyJSON.Image = global::fhirtestdatagen.Properties.Resources.copy;
-            this.butCopyJSON.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.butCopyJSON.Name = "butCopyJSON";
-            this.butCopyJSON.Size = new System.Drawing.Size(50, 36);
-            this.butCopyJSON.Text = "Copy to Clipboard";
-            this.butCopyJSON.Click += new System.EventHandler(this.butCopyJSON_Click);
-            // 
             // tabsMain
             // 
             this.tabsMain.Controls.Add(this.tabPatients);
@@ -307,6 +253,55 @@
             this.tabsMain.Size = new System.Drawing.Size(1493, 355);
             this.tabsMain.TabIndex = 4;
             // 
+            // tabPatients
+            // 
+            this.tabPatients.Controls.Add(this.listViewPatients);
+            this.tabPatients.Controls.Add(this.toolStripPatients);
+            this.tabPatients.Location = new System.Drawing.Point(4, 22);
+            this.tabPatients.Name = "tabPatients";
+            this.tabPatients.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPatients.Size = new System.Drawing.Size(1485, 329);
+            this.tabPatients.TabIndex = 0;
+            this.tabPatients.Text = "Patients";
+            this.tabPatients.UseVisualStyleBackColor = true;
+            // 
+            // toolStripPatients
+            // 
+            this.toolStripPatients.ImageScalingSize = new System.Drawing.Size(48, 32);
+            this.toolStripPatients.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.butGenerate,
+            this.toolStripSeparator3,
+            this.butExportPatientsToFile});
+            this.toolStripPatients.Location = new System.Drawing.Point(3, 3);
+            this.toolStripPatients.Name = "toolStripPatients";
+            this.toolStripPatients.Size = new System.Drawing.Size(1479, 54);
+            this.toolStripPatients.TabIndex = 2;
+            // 
+            // butGenerate
+            // 
+            this.butGenerate.Image = global::fhirtestdatagen.Properties.Resources.patients;
+            this.butGenerate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.butGenerate.Name = "butGenerate";
+            this.butGenerate.Size = new System.Drawing.Size(151, 51);
+            this.butGenerate.Text = "Generate Random Patients";
+            this.butGenerate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.butGenerate.Click += new System.EventHandler(this.butGenerate_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 54);
+            // 
+            // butExportPatientsToFile
+            // 
+            this.butExportPatientsToFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.butExportPatientsToFile.Image = global::fhirtestdatagen.Properties.Resources.exportToFile;
+            this.butExportPatientsToFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.butExportPatientsToFile.Name = "butExportPatientsToFile";
+            this.butExportPatientsToFile.Size = new System.Drawing.Size(52, 51);
+            this.butExportPatientsToFile.Text = "Export Patient to a File as JSON";
+            this.butExportPatientsToFile.Click += new System.EventHandler(this.butExportPatientsToFile_Click);
+            // 
             // tabOrganizations
             // 
             this.tabOrganizations.Controls.Add(this.listViewOrgs);
@@ -314,7 +309,7 @@
             this.tabOrganizations.Location = new System.Drawing.Point(4, 22);
             this.tabOrganizations.Name = "tabOrganizations";
             this.tabOrganizations.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOrganizations.Size = new System.Drawing.Size(1485, 426);
+            this.tabOrganizations.Size = new System.Drawing.Size(1485, 329);
             this.tabOrganizations.TabIndex = 1;
             this.tabOrganizations.Text = "Organizations";
             this.tabOrganizations.UseVisualStyleBackColor = true;
@@ -338,10 +333,11 @@
             this.listViewOrgs.GridLines = true;
             this.listViewOrgs.Location = new System.Drawing.Point(3, 57);
             this.listViewOrgs.Name = "listViewOrgs";
-            this.listViewOrgs.Size = new System.Drawing.Size(1479, 366);
+            this.listViewOrgs.Size = new System.Drawing.Size(1479, 269);
             this.listViewOrgs.TabIndex = 3;
             this.listViewOrgs.UseCompatibleStateImageBehavior = false;
             this.listViewOrgs.View = System.Windows.Forms.View.Details;
+            this.listViewOrgs.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewOrgs_ColumnClick);
             this.listViewOrgs.SelectedIndexChanged += new System.EventHandler(this.listViewOrgs_SelectedIndexChanged);
             // 
             // chId
@@ -485,39 +481,59 @@
             this.butExportOrgsToFile.Text = "Export Organizations to a File as JSON";
             this.butExportOrgsToFile.Click += new System.EventHandler(this.butExportOrgsToFile_Click);
             // 
-            // tabPatients
+            // splitter1
             // 
-            this.tabPatients.Controls.Add(this.listViewPatients);
-            this.tabPatients.Controls.Add(this.toolStripPatients);
-            this.tabPatients.Location = new System.Drawing.Point(4, 22);
-            this.tabPatients.Name = "tabPatients";
-            this.tabPatients.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPatients.Size = new System.Drawing.Size(1485, 329);
-            this.tabPatients.TabIndex = 0;
-            this.tabPatients.Text = "Patients";
-            this.tabPatients.UseVisualStyleBackColor = true;
+            this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.splitter1.Location = new System.Drawing.Point(0, 355);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(1493, 3);
+            this.splitter1.TabIndex = 6;
+            this.splitter1.TabStop = false;
             // 
-            // toolStripPatients
+            // panelJSON
             // 
-            this.toolStripPatients.ImageScalingSize = new System.Drawing.Size(48, 32);
-            this.toolStripPatients.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.butGenerate,
-            this.toolStripSeparator3,
-            this.butExportPatientsToFile});
-            this.toolStripPatients.Location = new System.Drawing.Point(3, 3);
-            this.toolStripPatients.Name = "toolStripPatients";
-            this.toolStripPatients.Size = new System.Drawing.Size(1479, 54);
-            this.toolStripPatients.TabIndex = 2;
+            this.panelJSON.Controls.Add(this.textBoxJSON);
+            this.panelJSON.Controls.Add(this.toolStrip1);
+            this.panelJSON.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelJSON.Location = new System.Drawing.Point(0, 358);
+            this.panelJSON.Name = "panelJSON";
+            this.panelJSON.Size = new System.Drawing.Size(1493, 94);
+            this.panelJSON.TabIndex = 5;
             // 
-            // butGenerate
+            // textBoxJSON
             // 
-            this.butGenerate.Image = global::fhirtestdatagen.Properties.Resources.patients;
-            this.butGenerate.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.butGenerate.Name = "butGenerate";
-            this.butGenerate.Size = new System.Drawing.Size(151, 51);
-            this.butGenerate.Text = "Generate Random Patients";
-            this.butGenerate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.butGenerate.Click += new System.EventHandler(this.butGenerate_Click);
+            this.textBoxJSON.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.textBoxJSON.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxJSON.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxJSON.ForeColor = System.Drawing.Color.AntiqueWhite;
+            this.textBoxJSON.Location = new System.Drawing.Point(53, 0);
+            this.textBoxJSON.Multiline = true;
+            this.textBoxJSON.Name = "textBoxJSON";
+            this.textBoxJSON.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxJSON.Size = new System.Drawing.Size(1440, 94);
+            this.textBoxJSON.TabIndex = 2;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(48, 32);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.butCopyJSON});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(53, 94);
+            this.toolStrip1.TabIndex = 3;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // butCopyJSON
+            // 
+            this.butCopyJSON.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.butCopyJSON.Image = global::fhirtestdatagen.Properties.Resources.copy;
+            this.butCopyJSON.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.butCopyJSON.Name = "butCopyJSON";
+            this.butCopyJSON.Size = new System.Drawing.Size(50, 36);
+            this.butCopyJSON.Text = "Copy to Clipboard";
+            this.butCopyJSON.Click += new System.EventHandler(this.butCopyJSON_Click);
             // 
             // menuStrip1
             // 
@@ -535,21 +551,6 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 54);
-            // 
-            // butExportPatientsToFile
-            // 
-            this.butExportPatientsToFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.butExportPatientsToFile.Image = global::fhirtestdatagen.Properties.Resources.exportToFile;
-            this.butExportPatientsToFile.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.butExportPatientsToFile.Name = "butExportPatientsToFile";
-            this.butExportPatientsToFile.Size = new System.Drawing.Size(52, 51);
-            this.butExportPatientsToFile.Text = "Export Patient to a File as JSON";
-            this.butExportPatientsToFile.Click += new System.EventHandler(this.butExportPatientsToFile_Click);
-            // 
             // FormFHIRTestDatGen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -566,19 +567,19 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.panelTabs.ResumeLayout(false);
-            this.panelJSON.ResumeLayout(false);
-            this.panelJSON.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.tabsMain.ResumeLayout(false);
-            this.tabOrganizations.ResumeLayout(false);
-            this.tabOrganizations.PerformLayout();
-            this.toolStripOrgs.ResumeLayout(false);
-            this.toolStripOrgs.PerformLayout();
             this.tabPatients.ResumeLayout(false);
             this.tabPatients.PerformLayout();
             this.toolStripPatients.ResumeLayout(false);
             this.toolStripPatients.PerformLayout();
+            this.tabOrganizations.ResumeLayout(false);
+            this.tabOrganizations.PerformLayout();
+            this.toolStripOrgs.ResumeLayout(false);
+            this.toolStripOrgs.PerformLayout();
+            this.panelJSON.ResumeLayout(false);
+            this.panelJSON.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
