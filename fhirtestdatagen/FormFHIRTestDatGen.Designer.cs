@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormFHIRTestDatGen));
-            this.listViewData = new System.Windows.Forms.ListView();
+            this.listViewPatients = new System.Windows.Forms.ListView();
             this.chPatientId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chPatientName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chPatientTelecom = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -83,6 +83,8 @@
             this.butGenerate = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.butExportPatientsToFile = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             this.panelTabs.SuspendLayout();
             this.panelJSON.SuspendLayout();
@@ -95,9 +97,9 @@
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // listViewData
+            // listViewPatients
             // 
-            this.listViewData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listViewPatients.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chPatientId,
             this.chPatientName,
             this.chPatientTelecom,
@@ -115,18 +117,18 @@
             this.chPatientManagOrg,
             this.chPatientLink,
             this.chPatientActive});
-            this.listViewData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewData.FullRowSelect = true;
-            this.listViewData.GridLines = true;
-            this.listViewData.HideSelection = false;
-            this.listViewData.Location = new System.Drawing.Point(3, 57);
-            this.listViewData.MultiSelect = false;
-            this.listViewData.Name = "listViewData";
-            this.listViewData.Size = new System.Drawing.Size(1479, 366);
-            this.listViewData.TabIndex = 1;
-            this.listViewData.UseCompatibleStateImageBehavior = false;
-            this.listViewData.View = System.Windows.Forms.View.Details;
-            this.listViewData.SelectedIndexChanged += new System.EventHandler(this.listViewData_SelectedIndexChanged);
+            this.listViewPatients.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewPatients.FullRowSelect = true;
+            this.listViewPatients.GridLines = true;
+            this.listViewPatients.HideSelection = false;
+            this.listViewPatients.Location = new System.Drawing.Point(3, 57);
+            this.listViewPatients.MultiSelect = false;
+            this.listViewPatients.Name = "listViewPatients";
+            this.listViewPatients.Size = new System.Drawing.Size(1479, 269);
+            this.listViewPatients.TabIndex = 1;
+            this.listViewPatients.UseCompatibleStateImageBehavior = false;
+            this.listViewPatients.View = System.Windows.Forms.View.Details;
+            this.listViewPatients.SelectedIndexChanged += new System.EventHandler(this.listViewData_SelectedIndexChanged);
             // 
             // chPatientId
             // 
@@ -231,9 +233,9 @@
             // 
             // panelTabs
             // 
+            this.panelTabs.Controls.Add(this.tabsMain);
             this.panelTabs.Controls.Add(this.splitter1);
             this.panelTabs.Controls.Add(this.panelJSON);
-            this.panelTabs.Controls.Add(this.tabsMain);
             this.panelTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTabs.Location = new System.Drawing.Point(0, 24);
             this.panelTabs.Name = "panelTabs";
@@ -296,13 +298,13 @@
             // 
             // tabsMain
             // 
-            this.tabsMain.Controls.Add(this.tabOrganizations);
             this.tabsMain.Controls.Add(this.tabPatients);
+            this.tabsMain.Controls.Add(this.tabOrganizations);
             this.tabsMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabsMain.Location = new System.Drawing.Point(0, 0);
             this.tabsMain.Name = "tabsMain";
             this.tabsMain.SelectedIndex = 0;
-            this.tabsMain.Size = new System.Drawing.Size(1493, 452);
+            this.tabsMain.Size = new System.Drawing.Size(1493, 355);
             this.tabsMain.TabIndex = 4;
             // 
             // tabOrganizations
@@ -485,12 +487,12 @@
             // 
             // tabPatients
             // 
-            this.tabPatients.Controls.Add(this.listViewData);
+            this.tabPatients.Controls.Add(this.listViewPatients);
             this.tabPatients.Controls.Add(this.toolStripPatients);
             this.tabPatients.Location = new System.Drawing.Point(4, 22);
             this.tabPatients.Name = "tabPatients";
             this.tabPatients.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPatients.Size = new System.Drawing.Size(1485, 426);
+            this.tabPatients.Size = new System.Drawing.Size(1485, 329);
             this.tabPatients.TabIndex = 0;
             this.tabPatients.Text = "Patients";
             this.tabPatients.UseVisualStyleBackColor = true;
@@ -499,7 +501,9 @@
             // 
             this.toolStripPatients.ImageScalingSize = new System.Drawing.Size(48, 32);
             this.toolStripPatients.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.butGenerate});
+            this.butGenerate,
+            this.toolStripSeparator3,
+            this.butExportPatientsToFile});
             this.toolStripPatients.Location = new System.Drawing.Point(3, 3);
             this.toolStripPatients.Name = "toolStripPatients";
             this.toolStripPatients.Size = new System.Drawing.Size(1479, 54);
@@ -530,6 +534,21 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 54);
+            // 
+            // butExportPatientsToFile
+            // 
+            this.butExportPatientsToFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.butExportPatientsToFile.Image = global::fhirtestdatagen.Properties.Resources.exportToFile;
+            this.butExportPatientsToFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.butExportPatientsToFile.Name = "butExportPatientsToFile";
+            this.butExportPatientsToFile.Size = new System.Drawing.Size(52, 51);
+            this.butExportPatientsToFile.Text = "Export Patient to a File as JSON";
+            this.butExportPatientsToFile.Click += new System.EventHandler(this.butExportPatientsToFile_Click);
             // 
             // FormFHIRTestDatGen
             // 
@@ -568,7 +587,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.ListView listViewData;
+        private System.Windows.Forms.ListView listViewPatients;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ColumnHeader chPatientId;
         private System.Windows.Forms.ColumnHeader chPatientName;
@@ -622,6 +641,8 @@
         private System.Windows.Forms.ToolStripButton butAllOrgs;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton butExportOrgsToFile;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton butExportPatientsToFile;
     }
 }
 

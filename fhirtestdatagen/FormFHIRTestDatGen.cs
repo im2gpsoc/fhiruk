@@ -22,6 +22,7 @@ namespace fhirtestdatagen
         private static String FILE_INDEPENDENTS = @"..\..\lists\sds.independent.txt";
 
         private static String FILE_EXPORT_ORGS = @"export.orgs.json.txt";
+        private static String FILE_EXPORT_PATIENTS = @"export.patients.json.txt";
 
         private List<SDSConfigNodeLines> gpItems = new List<SDSConfigNodeLines>();
         private List<SDSConfigNode> gpKeyValueObjects = new List<SDSConfigNode>();
@@ -30,6 +31,7 @@ namespace fhirtestdatagen
 
         HumanNameGenerator genNames = null;
         AddressGenerator genAddresses = null;
+        OrganizationGenerator genOrgs = null;
 
         public FormFHIRTestDatGen()
         {
@@ -56,7 +58,7 @@ namespace fhirtestdatagen
             GenerateAddress(patient);
             GenerateMaritalStatus(patient);
             GenerateMultiBirth(patient);
-            GenerateContact(patient);
+            GenerateContact(patient, genOrgs);
 
             return patient;
         }
@@ -130,9 +132,9 @@ namespace fhirtestdatagen
                 patient.multipleBirth = 3;
         }
 
-        private void GenerateContact(Patient patient)
+        private void GenerateContact(Patient patient, OrganizationGenerator orgGen)
         {
-            patient.contact = new PatientContactGenerator().GetRandomContacts(patient);
+            patient.contact = new PatientContactGenerator().GetRandomContacts(patient, orgGen);
         }
 
         private void AddPatientToList(Patient patient)
@@ -140,7 +142,7 @@ namespace fhirtestdatagen
             if ((patient == null) || (patient.identifier == null) || (patient.identifier.Count < 1))
                 return;
 
-            ListViewItem item = listViewData.Items.Add(patient.identifier.ToString());
+            ListViewItem item = listViewPatients.Items.Add(patient.identifier.ToString());
             item.SubItems.Add(patient.name.ToString());
             item.SubItems.Add(patient.telecom.ToString());
             item.SubItems.Add(patient.gender.ToString());
@@ -160,15 +162,16 @@ namespace fhirtestdatagen
         {
             genNames = new HumanNameGenerator();
             genAddresses = new AddressGenerator();
+            genOrgs = new OrganizationGenerator();
         }
 
         private void listViewData_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listViewData.SelectedItems.Count == 0)
+            if (listViewPatients.SelectedItems.Count == 0)
                 textBoxJSON.Text = String.Empty;
             else
             {
-                ListViewItem item = listViewData.SelectedItems[0];
+                ListViewItem item = listViewPatients.SelectedItems[0];
                 Patient patient = item.Tag as Patient;
                 textBoxJSON.Text = patient.JSON();
             }
@@ -371,6 +374,7 @@ namespace fhirtestdatagen
                     }
 
                     item.Tag = org;
+                    genOrgs.AddOrganization(org);
                 }
             }
 
@@ -487,6 +491,12 @@ namespace fhirtestdatagen
 
         private void butExportOrgsToFile_Click(object sender, EventArgs e)
         {
+            if (listViewOrgs.Items.Count == 0)
+            {
+                MessageBox.Show("There are no organizations to export.");
+                return;
+            }
+
             using (StreamWriter writer = new StreamWriter(FILE_EXPORT_ORGS))
             {
                 foreach (ListViewItem item in listViewOrgs.Items)
@@ -499,6 +509,32 @@ namespace fhirtestdatagen
 
                 writer.Close();
             }
+
+            MessageBox.Show("Exported " + listViewOrgs.Items.Count.ToString() + "organizations to the [" + FILE_EXPORT_ORGS + "] file.");
+        }
+
+        private void butExportPatientsToFile_Click(object sender, EventArgs e)
+        {
+            if (listViewPatients.Items.Count == 0)
+            {
+                MessageBox.Show("There are no patients to export.");
+                return;
+            }
+
+            using (StreamWriter writer = new StreamWriter(FILE_EXPORT_PATIENTS))
+            {
+                foreach (ListViewItem item in listViewPatients.Items)
+                {
+                    Patient patient = item.Tag as Patient;
+                    String json = patient.JSON();
+
+                    writer.WriteLine(json);
+                }
+
+                writer.Close();
+            }
+
+            MessageBox.Show("Exported " + listViewPatients.Items.Count.ToString() + "patients to the [" + FILE_EXPORT_PATIENTS + "] file.");
         }
     }
 }

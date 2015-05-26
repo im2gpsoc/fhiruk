@@ -58,7 +58,10 @@ namespace FHIRUK.Resources
         public Contacts telecom { get; set; }    //  <!-- 0..* Contact A contact detail for the person -->
         public Address address { get; set; }    //  <!-- 0..1 Address Address for the contact person -->
         public EnumGender gender { get; set; }  //  <!-- 0..1 CodeableConcept Gender for administrative purposes -->
+#if false
         public Organization organization { get; set; }  //  <!-- ?? 0..1 Resource(Organization) Organization that is associated with the contact -->
+#endif
+        public Uri organization { get; set; }  //  <!-- ?? 0..1 Resource(Organization) Organization that is associated with the contact -->
 
     }
 

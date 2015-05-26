@@ -12,17 +12,26 @@ namespace fhirtestdatagen
 {
     public class OrganizationGenerator
     {
-        private List<String> orgNames = new List<String>();
-        private String orgNamesFile = @"..\..\lists\org.names.txt";
+        private Organizations organizations = new Organizations();
+
+        //private List<String> orgNames = new List<String>();
+        //private String orgNamesFile = @"..\..\lists\org.names.txt";
+
         Random randomGenerator;
 
         public OrganizationGenerator()
         {
             randomGenerator = new Random(Guid.NewGuid().GetHashCode()); 
             
-            LoadOrgNamesFromFile();
+            //LoadOrgNamesFromFile();
         }
 
+        public void AddOrganization(Organization org)
+        {
+            organizations.Add(org);
+        }
+
+/*
         private void LoadOrgNamesFromFile()
         {
             try
@@ -49,18 +58,29 @@ namespace fhirtestdatagen
             }
 
         }
+*/
 
         public Organization GetRandomOrganization()
         {
-            Organization org = new Organization();
+            if (organizations.Count == 0)
+                return null;
 
+            Int32 index = randomGenerator.Next(0, organizations.Count);
+
+            Organization org = organizations[index];
+
+            return org;
+#if false
             org.name = GetRandomOrgName();
             String url = GetRandomUrl(org.name);
             org.identifier = IdentifierGenerator.GetRandomIdentifiers(true, url);
             org.type = EnumOrganizationType.prov;
 
             return org;
+#endif
         }
+
+#if false
 
         private String GetRandomUrl(String orgName)
         {
@@ -79,5 +99,7 @@ namespace fhirtestdatagen
         {
             return orgNames[randomGenerator.Next(0, orgNames.Count)];
         }
+#endif
+
     }
 }

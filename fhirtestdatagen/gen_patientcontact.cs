@@ -16,7 +16,7 @@ namespace fhirtestdatagen
             randomGenerator = new Random(Guid.NewGuid().GetHashCode());
         }
 
-        public PatientContacts GetRandomContacts(Patient patient)
+        public PatientContacts GetRandomContacts(Patient patient, OrganizationGenerator orgGen)
         {
             PatientContacts contacts = new PatientContacts();
 
@@ -26,7 +26,7 @@ namespace fhirtestdatagen
 
             for (int i = 0; i < numOfContacts; i++)
             {
-                PatientContact contact = GetRandomContact(patient);
+                PatientContact contact = GetRandomContact(patient, orgGen);
                 contacts.Add(contact);
             }
 
@@ -37,7 +37,7 @@ namespace fhirtestdatagen
         /// in the future, refine this approach
         /// </summary>
         /// <returns></returns>
-        public PatientContact GetRandomContact(Patient patient)
+        public PatientContact GetRandomContact(Patient patient, OrganizationGenerator orgGen)
         {
             PatientContact patientContact = new PatientContact();
 
@@ -48,8 +48,11 @@ namespace fhirtestdatagen
 
             if (IsCareGiver(patientContact))
             {
-                OrganizationGenerator orgGen = new OrganizationGenerator();
-                patientContact.organization = orgGen.GetRandomOrganization();
+                Organization org = orgGen.GetRandomOrganization();
+                if ((org != null) && (org.identifier != null) && (org.identifier.Count > 0))
+                    patientContact.organization = new Uri("Organization/" + org.identifier[0].value, UriKind.Relative);
+                else
+                    patientContact.organization = new Uri("/error", UriKind.Relative);
             }
             else
             {

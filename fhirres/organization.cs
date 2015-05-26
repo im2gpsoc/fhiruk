@@ -27,4 +27,9 @@ namespace FHIRUK.Resources
             return name;                
         }
     }
+
+    public class Organizations : List<Organization>
+    {
+
+    }
 }
