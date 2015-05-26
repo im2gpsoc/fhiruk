@@ -8,12 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FHIRUK.Resources;
+using System.IO;
 
 namespace fhirtestdatagen
 {
     public partial class FormFHIRTestDatGen : Form
     {
         private static Int32 PATIENT_COUNT = 10;
+
+        private static String FILE_GPS = @"..\..\lists\sds.gppractices.txt";
+        private static String FILE_PCTS = @"..\..\lists\sds.pcts.txt";
+        private static String FILE_TRUSTS = @"..\..\lists\sds.nhstrust.txt";
+        private static String FILE_INDEPENDENTS = @"..\..\lists\sds.independent.txt";
+
+        private List<SDSConfigNodeLines> gpItems = new List<SDSConfigNodeLines>();
+        private List<SDSConfigNode> gpKeyValueObjects = new List<SDSConfigNode>();
+
+        private ListViewColumnSorter lvwColumnSorter = null;
 
         HumanNameGenerator genNames = null;
         AddressGenerator genAddresses = null;
@@ -152,12 +163,223 @@ namespace fhirtestdatagen
         private void listViewData_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listViewData.SelectedItems.Count == 0)
-                textBox1.Text = String.Empty;
+                textBoxJSON.Text = String.Empty;
             else
             {
                 ListViewItem item = listViewData.SelectedItems[0];
                 Patient patient = item.Tag as Patient;
-                textBox1.Text = patient.JSON();
+                textBoxJSON.Text = patient.JSON();
+            }
+        }
+
+        private void ClearListItems()
+        {
+            gpItems.Clear();
+
+            listViewOrgs.BeginUpdate();
+            listViewOrgs.Items.Clear();
+            listViewOrgs.EndUpdate();
+        }
+
+        private void butGPs_Click(object sender, EventArgs e)
+        {
+            LoadandDisplaySDSFile(FILE_GPS);
+        }
+
+        private void butPCTs_Click(object sender, EventArgs e)
+        {
+            LoadandDisplaySDSFile(FILE_PCTS);
+        }
+
+        private void butTrusts_Click(object sender, EventArgs e)
+        {
+            LoadandDisplaySDSFile(FILE_TRUSTS);
+        }
+
+        private void butIndependents_Click(object sender, EventArgs e)
+        {
+            LoadandDisplaySDSFile(FILE_INDEPENDENTS);
+        }
+
+        private void LoadandDisplaySDSFile(String sdsFile)
+        {
+            toolStripStatusLabelInfo.Text = "Clearing list items...";
+            ClearListItems();
+
+            toolStripStatusLabelInfo.Text = "Reading SDS file...";
+            ReadSDSFile(sdsFile);
+
+            toolStripStatusLabelInfo.Text = "Creating configuration objects...";
+            ParseConfigurationItems();
+
+            toolStripStatusLabelInfo.Text = "Displaying organisations...";
+            DisplayItems();
+
+            toolStripStatusLabelInfo.Text = listViewOrgs.Items.Count.ToString() + " items.";
+        }
+
+        private void ReadSDSFile(String sdsFile)
+        {
+            SDSConfigNodeLines gpItem = new SDSConfigNodeLines();
+
+            using (StreamReader reader = new StreamReader(sdsFile))
+            {
+                while (reader.EndOfStream == false)
+                {
+                    String line = reader.ReadLine();
+                    if (String.IsNullOrEmpty(line) == false)
+                    {
+                        gpItem.Add(line);
+                    }
+                    else
+                    {
+                        if (gpItem.Count > 0)
+                        {
+                            String firstLine = gpItem[0];
+                            if (firstLine.StartsWith("dn:") == false)
+                            {
+                                gpItem.Clear();
+                            }
+                            else
+                            {
+                                gpItems.Add(gpItem);
+                                gpItem = new SDSConfigNodeLines();
+                            }
+                        }
+                    }
+                }
+
+                reader.Close();
+            }
+        }
+
+        private void ParseConfigurationItems()
+        {
+            gpKeyValueObjects.Clear();
+
+            foreach (SDSConfigNodeLines gpItem in gpItems)
+            {
+                SDSConfigNode gpKeyValueObject = new SDSConfigNode(gpItem);
+
+                gpKeyValueObjects.Add(gpKeyValueObject);
+            }
+        }
+
+        private void DisplayItems()
+        {
+            listViewOrgs.BeginUpdate();
+
+            foreach (SDSConfigNode pairs in gpKeyValueObjects)
+            {
+                String uniqueidentifier = pairs.GetValue("uniqueidentifier");
+                String odsCode = pairs.GetValue("nhsdhsccode");
+                String shaCode = pairs.GetValue("nhsshacode");
+                String practiceName = pairs.GetValue("o");
+                String telephonenumber = pairs.GetValue("telephonenumber");
+                String postaladdress = pairs.GetValue("postaladdress");
+                String postalcode = pairs.GetValue("postalcode");
+                String orgTypeCode = pairs.GetValue("nhsorgtypecode");
+                String fax = pairs.GetValue("facsimiletelephonenumber");
+
+                if (practiceName != null)
+                {
+                    ListViewItem item = listViewOrgs.Items.Add(uniqueidentifier);
+                    item.SubItems.Add(orgTypeCode);
+                    item.SubItems.Add(odsCode);
+                    item.SubItems.Add(shaCode);
+                    item.SubItems.Add(practiceName);
+                    item.SubItems.Add(telephonenumber);
+                    item.SubItems.Add(fax);
+                    //item.SubItems.Add(postaladdress);
+                    ParsePostalAddress(item, postaladdress);
+                    item.SubItems[9].Text = postalcode;
+
+
+                }
+            }
+
+            listViewOrgs.EndUpdate();
+        }
+
+        private void ParsePostalAddress(ListViewItem item, String postaladdress)
+        {
+            String[] addressItems = postaladdress.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (addressItems.Length < 3)
+            {
+                if (addressItems.Length == 2)
+                {
+                    item.SubItems.Add("");
+                    item.SubItems.Add(addressItems[0]);
+                    item.SubItems.Add("");  // postcode
+                    item.SubItems.Add(addressItems[1]);
+                }
+                else
+                {
+                    item.SubItems.Add(postaladdress);
+                    item.SubItems.Add("");
+                    item.SubItems.Add("");  // postcode
+                    item.SubItems.Add("");
+                }
+                return;
+            }
+
+            String county = addressItems[addressItems.Length - 1].Trim();
+            String town = addressItems[addressItems.Length - 2].Trim();
+            String street = String.Empty;
+            for (int i = 0; i < (addressItems.Length - 2); i++)
+            {
+                if (street != String.Empty)
+                    street += ",";
+
+                street += addressItems[i].Trim();
+            }
+
+            item.SubItems.Add(street);
+            item.SubItems.Add(town);
+            item.SubItems.Add("");  // postcode
+            item.SubItems.Add(county);
+        }
+
+        private void listViewOrgs_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            // Determine if clicked column is already the column that is being sorted.
+            if (e.Column == lvwColumnSorter.SortColumn)
+            {
+                // Reverse the current sort direction for this column.
+                if (lvwColumnSorter.Order == SortOrder.Ascending)
+                    lvwColumnSorter.Order = SortOrder.Descending;
+                else
+                    lvwColumnSorter.Order = SortOrder.Ascending;
+            }
+            else
+            {
+                // Set the column number that is to be sorted; default to ascending.
+                lvwColumnSorter.SortColumn = e.Column;
+                lvwColumnSorter.Order = SortOrder.Ascending;
+            }
+
+            // Perform the sort with these new sort options.
+            listViewOrgs.BeginUpdate();
+
+            this.listViewOrgs.ListViewItemSorter = lvwColumnSorter;
+
+            this.listViewOrgs.Sort();
+
+            this.listViewOrgs.ListViewItemSorter = null;
+
+            listViewOrgs.EndUpdate();
+        }
+
+        private void listViewOrgs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listViewOrgs.SelectedItems.Count == 0)
+                textBoxJSON.Text = String.Empty;
+            else
+            {
+                ListViewItem item = listViewOrgs.SelectedItems[0];
+                Organization organization = item.Tag as Organization;
+                //textBox1.Text = organization.JSON();
             }
         }
     }
