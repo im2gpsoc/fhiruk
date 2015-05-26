@@ -40,9 +40,9 @@ namespace fhirtestdatagen
                             randomGenerator.Next(10, 100).ToString("D2");
             id = new Identifier()
             {
-                Use = EnumIdentifierUse.Official,
-                System = new Uri(url),
-                Value = odsCode
+                use = EnumIdentifierUse.Official,
+                system = new Uri(url),
+                value = odsCode
             };
             ids.Add(id);
 
@@ -70,9 +70,9 @@ namespace fhirtestdatagen
                     Int32 uniqueID = randomGenerator.Next(0, 10000000);
                     id = new Identifier()
                     {
-                        Use = EnumIdentifierUse.Official,
-                        System = new Uri("http://www.nhs.uk/NHSEngland/thenhs/records/Pages/thenhsnumber.aspx"),
-                        Value = "999" + uniqueID.ToString("D7")
+                        use = EnumIdentifierUse.Official,
+                        system = new Uri("http://www.nhs.uk/NHSEngland/thenhs/records/Pages/thenhsnumber.aspx"),
+                        value = "999" + uniqueID.ToString("D7")
                     };
                     ids.Add(id);
 
@@ -88,8 +88,8 @@ namespace fhirtestdatagen
 
                         id = new Identifier()
                         {
-                            Use = use,
-                            Value = randomGenerator.Next(0, 1000000).ToString("D6") //  generate a 6 digit number
+                            use = use,
+                            value = randomGenerator.Next(0, 1000000).ToString("D6") //  generate a 6 digit number
                         };
                         ids.Add(id);
                     }

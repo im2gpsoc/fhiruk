@@ -11,13 +11,13 @@ namespace FHIRUK.Resources
     public class HumanName
     {
         [JsonConverter(typeof(StringEnumConverter))]
-        public EnumHumanNameUse Use { get; set; }   //  <!-- 0..1 usual | official | temp | nickname | anonymous | old | maiden -->
-        public String Text { get; set; }            //  <!-- 0..1 Text representation of the full name -->
-        public List<String> Family { get; set; }          //  <!-- 0..* Family name (often called 'Surname') -->
-        public List<String> Given { get; set; }           //  <!-- 0..* Given names (not always 'first'). Includes middle names -->
-        public List<String> Prefix { get; set; }          //  <!-- 0..* Parts that come before the name -->
-        public List<String> Suffix { get; set; }          //  <!-- 0..* Parts that come after the name -->
-        public Period Period { get; set; }          //  <!-- 0..1 Period Time period when name was/is in use --></period>
+        public EnumHumanNameUse use { get; set; }   //  <!-- 0..1 usual | official | temp | nickname | anonymous | old | maiden -->
+        public String text { get; set; }            //  <!-- 0..1 Text representation of the full name -->
+        public List<String> family { get; set; }          //  <!-- 0..* Family name (often called 'Surname') -->
+        public List<String> given { get; set; }           //  <!-- 0..* Given names (not always 'first'). Includes middle names -->
+        public List<String> prefix { get; set; }          //  <!-- 0..* Parts that come before the name -->
+        public List<String> suffix { get; set; }          //  <!-- 0..* Parts that come after the name -->
+        public Period period { get; set; }          //  <!-- 0..1 Period Time period when name was/is in use --></period>
 
         public override String ToString()
         {
@@ -25,14 +25,14 @@ namespace FHIRUK.Resources
 
             String givenNames = String.Empty;
 
-            foreach (String giveName in Given)
+            foreach (String giveName in given)
             {
                 givenNames += giveName + " ";
             }
 
             String familyNames = String.Empty;
 
-            foreach (String familyName in Family)
+            foreach (String familyName in family)
             {
                 if (familyNames != String.Empty)
                     result += " ";

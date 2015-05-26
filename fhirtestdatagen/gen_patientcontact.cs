@@ -41,20 +41,20 @@ namespace fhirtestdatagen
         {
             PatientContact patientContact = new PatientContact();
 
-            patientContact.Relationship = GetRandomRelationship(patient, patientContact);
+            patientContact.relationship = GetRandomRelationship(patient, patientContact);
             EnumGender gender;
-            patientContact.Name = new HumanNameGenerator().GetRandomName(out gender);
-            patientContact.Gender = gender;
+            patientContact.name = new HumanNameGenerator().GetRandomName(out gender);
+            patientContact.gender = gender;
 
             if (IsCareGiver(patientContact))
             {
                 OrganizationGenerator orgGen = new OrganizationGenerator();
-                patientContact.Organization = orgGen.GetRandomOrganization();
+                patientContact.organization = orgGen.GetRandomOrganization();
             }
             else
             {
-                String familyName = patientContact.Name.Family[0];
-                patientContact.Telecom = TelecomGenerator.GetRandomContacts(familyName);
+                String familyName = patientContact.name.family[0];
+                patientContact.telecom = TelecomGenerator.GetRandomContacts(familyName);
             }
 
             return patientContact;
@@ -62,7 +62,7 @@ namespace fhirtestdatagen
 
         private Boolean IsCareGiver(PatientContact patientContact)
         {
-            List<EnumPatientRelationship> relationships = patientContact.Relationship;
+            List<EnumPatientRelationship> relationships = patientContact.relationship;
 
             foreach (EnumPatientRelationship relationship in relationships)
             {
@@ -78,7 +78,7 @@ namespace fhirtestdatagen
             // EnumPatientRelationship = emergency, family, guardian, friend, partner, work, caregiver, agent, guarantor, owner, parent
             List<EnumPatientRelationship> relationships = new List<EnumPatientRelationship>();
 
-            Int32 ageInYears = (new DateTime(DateTime.Now.Subtract(patient.BirthDate).Ticks).Year - 1);
+            Int32 ageInYears = (new DateTime(DateTime.Now.Subtract(patient.birthDate).Ticks).Year - 1);
 
             Int32 option = randomGenerator.Next(0, 100);
 

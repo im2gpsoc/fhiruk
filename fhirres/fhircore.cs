@@ -13,7 +13,7 @@ namespace FHIRUK.Resources
         String JSON();
     }
 
-    public class FhirCore : IJson
+    public abstract class FhirCore : IJson
     {
         public String JSON()
         {

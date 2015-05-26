@@ -54,10 +54,10 @@ namespace fhirtestdatagen
         {
             Organization org = new Organization();
 
-            org.Name = GetRandomOrgName();
-            String url = GetRandomUrl(org.Name);
-            org.Identifier = IdentifierGenerator.GetRandomIdentifiers(true, url);
-            org.Type = EnumOrganizationType.prov;
+            org.name = GetRandomOrgName();
+            String url = GetRandomUrl(org.name);
+            org.identifier = IdentifierGenerator.GetRandomIdentifiers(true, url);
+            org.type = EnumOrganizationType.prov;
 
             return org;
         }

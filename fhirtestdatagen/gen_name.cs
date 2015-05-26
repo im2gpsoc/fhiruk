@@ -88,8 +88,8 @@ namespace fhirtestdatagen
 
             return new HumanName()
                     {
-                        Given = given,
-                        Family = family
+                        given = given,
+                        family = family
                     };
         }
 

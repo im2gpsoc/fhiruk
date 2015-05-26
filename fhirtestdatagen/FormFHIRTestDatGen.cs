@@ -21,6 +21,8 @@ namespace fhirtestdatagen
         private static String FILE_TRUSTS = @"..\..\lists\sds.nhstrust.txt";
         private static String FILE_INDEPENDENTS = @"..\..\lists\sds.independent.txt";
 
+        private static String FILE_EXPORT_ORGS = @"export.orgs.json.txt";
+
         private List<SDSConfigNodeLines> gpItems = new List<SDSConfigNodeLines>();
         private List<SDSConfigNode> gpKeyValueObjects = new List<SDSConfigNode>();
 
@@ -33,7 +35,7 @@ namespace fhirtestdatagen
         {
             InitializeComponent();
         }
-        
+
         private void butGenerate_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < PATIENT_COUNT; i++)
@@ -61,22 +63,22 @@ namespace fhirtestdatagen
 
         private void GenerateIdentifier(Patient patient)
         {
-            patient.Identifier = IdentifierGenerator.GetRandomIdentifiers();
+            patient.identifier = IdentifierGenerator.GetRandomIdentifiers();
         }
 
         private void GenerateName(Patient patient)
         {
             EnumGender gender;
 
-            patient.Name = genNames.GetRandomNames(out gender);
+            patient.name = genNames.GetRandomNames(out gender);
 
-            patient.Gender = gender;
+            patient.gender = gender;
         }
 
         private void GenerateTelecom(Patient patient)
         {
-            String familyName = patient.Name[0].Family[0];
-            patient.Telecom = TelecomGenerator.GetRandomContacts(familyName);
+            String familyName = patient.name[0].family[0];
+            patient.telecom = TelecomGenerator.GetRandomContacts(familyName);
         }
 
         private void GenerateDOB(Patient patient)
@@ -102,17 +104,17 @@ namespace fhirtestdatagen
                     break;
             }
 
-            patient.BirthDate = new DateTime(year, month, day);
+            patient.birthDate = new DateTime(year, month, day);
         }
 
         private void GenerateAddress(Patient patient)
         {
-            patient.Address = genAddresses.GetRandomAddresses(EnumAddressUse.home); 
+            patient.address = genAddresses.GetRandomAddresses(EnumAddressUse.home);
         }
 
         private void GenerateMaritalStatus(Patient patient)
         {
-            patient.MaritalStatus = MaritalStatusGenerator.GetRandomMaritalStatus(patient.BirthDate);
+            patient.maritalStatus = MaritalStatusGenerator.GetRandomMaritalStatus(patient.birthDate);
         }
 
         private void GenerateMultiBirth(Patient patient)
@@ -121,35 +123,35 @@ namespace fhirtestdatagen
             // 90% single births, 9% twins. 1%triplets
             Int32 r = randomGenerator.Next(0, 100);
             if (r < 90)
-                patient.MultipleBirth = 1;
+                patient.multipleBirth = 1;
             else if (r < 99)
-                patient.MultipleBirth = 2;
+                patient.multipleBirth = 2;
             else
-                patient.MultipleBirth = 3;
+                patient.multipleBirth = 3;
         }
 
         private void GenerateContact(Patient patient)
         {
-            patient.Contact = new PatientContactGenerator().GetRandomContacts(patient);
+            patient.contact = new PatientContactGenerator().GetRandomContacts(patient);
         }
 
         private void AddPatientToList(Patient patient)
         {
-            if ((patient == null) || (patient.Identifier == null) || (patient.Identifier.Count < 1))
+            if ((patient == null) || (patient.identifier == null) || (patient.identifier.Count < 1))
                 return;
 
-            ListViewItem item = listViewData.Items.Add(patient.Identifier.ToString());
-            item.SubItems.Add(patient.Name.ToString());
-            item.SubItems.Add(patient.Telecom.ToString());
-            item.SubItems.Add(patient.Gender.ToString());
-            item.SubItems.Add(patient.BirthDate.ToShortDateString());
+            ListViewItem item = listViewData.Items.Add(patient.identifier.ToString());
+            item.SubItems.Add(patient.name.ToString());
+            item.SubItems.Add(patient.telecom.ToString());
+            item.SubItems.Add(patient.gender.ToString());
+            item.SubItems.Add(patient.birthDate.ToShortDateString());
             item.SubItems.Add(String.Empty);    // deceased
-            item.SubItems.Add(patient.Address.ToString());
+            item.SubItems.Add(patient.address.ToString());
             //item.SubItems.Add(EnumConversion.MaritalStatusToString(patient.MaritalStatus));
-            item.SubItems.Add(patient.MaritalStatus.ToString());
-            item.SubItems.Add(patient.MultipleBirth.ToString());
+            item.SubItems.Add(patient.maritalStatus.ToString());
+            item.SubItems.Add(patient.multipleBirth.ToString());
             item.SubItems.Add(String.Empty);    //  photo
-            item.SubItems.Add(patient.Contact.ToString());    //  photo
+            item.SubItems.Add(patient.contact.ToString());    //  photo
 
             item.Tag = patient;
         }
@@ -174,8 +176,6 @@ namespace fhirtestdatagen
 
         private void ClearListItems()
         {
-            gpItems.Clear();
-
             listViewOrgs.BeginUpdate();
             listViewOrgs.Items.Clear();
             listViewOrgs.EndUpdate();
@@ -201,10 +201,13 @@ namespace fhirtestdatagen
             LoadandDisplaySDSFile(FILE_INDEPENDENTS);
         }
 
-        private void LoadandDisplaySDSFile(String sdsFile)
+        private void LoadandDisplaySDSFile(String sdsFile, Boolean clearList = true)
         {
             toolStripStatusLabelInfo.Text = "Clearing list items...";
-            ClearListItems();
+            if (clearList == true)
+            {
+                ClearListItems();
+            }
 
             toolStripStatusLabelInfo.Text = "Reading SDS file...";
             ReadSDSFile(sdsFile);
@@ -220,6 +223,8 @@ namespace fhirtestdatagen
 
         private void ReadSDSFile(String sdsFile)
         {
+            gpItems.Clear();
+
             SDSConfigNodeLines gpItem = new SDSConfigNodeLines();
 
             using (StreamReader reader = new StreamReader(sdsFile))
@@ -274,71 +279,153 @@ namespace fhirtestdatagen
                 String uniqueidentifier = pairs.GetValue("uniqueidentifier");
                 String odsCode = pairs.GetValue("nhsdhsccode");
                 String shaCode = pairs.GetValue("nhsshacode");
-                String practiceName = pairs.GetValue("o");
+                String orgName = pairs.GetValue("o");
                 String telephonenumber = pairs.GetValue("telephonenumber");
                 String postaladdress = pairs.GetValue("postaladdress");
                 String postalcode = pairs.GetValue("postalcode");
                 String orgTypeCode = pairs.GetValue("nhsorgtypecode");
                 String fax = pairs.GetValue("facsimiletelephonenumber");
 
-                if (practiceName != null)
+                String street = String.Empty;
+                String town = String.Empty;
+                String county = String.Empty;
+
+                if (orgName != null)
                 {
                     ListViewItem item = listViewOrgs.Items.Add(uniqueidentifier);
                     item.SubItems.Add(orgTypeCode);
                     item.SubItems.Add(odsCode);
                     item.SubItems.Add(shaCode);
-                    item.SubItems.Add(practiceName);
+                    item.SubItems.Add(orgName);
                     item.SubItems.Add(telephonenumber);
                     item.SubItems.Add(fax);
-                    //item.SubItems.Add(postaladdress);
-                    ParsePostalAddress(item, postaladdress);
+
+                    ParsePostalAddress(item, postaladdress, out street, out town, out county);
+
+                    item.SubItems.Add(street);
+                    item.SubItems.Add(town);
+                    item.SubItems.Add(postalcode);
+                    item.SubItems.Add(county);
+
                     item.SubItems[9].Text = postalcode;
 
+                    Organization org = new Organization
+                    {
+                        active = true,
+                        address = new Addresses
+                        {
+                            new Address
+                            {
+                                city = town,
+                                line = new List<string> { street },
+                                state = county,
+                                zip = postalcode,
+                                use = EnumAddressUse.work
+                            }
+                        },
+                        identifier = new Identifiers
+                        {
+                            new Identifier
+                            {
+                                use = EnumIdentifierUse.Official,
+                                value = uniqueidentifier,
+                                system = new Uri("http://checkit/")
+                            },
+                            new Identifier
+                            {
+                                use = EnumIdentifierUse.Secondary,
+                                value = odsCode,
+                                system = new Uri("http://systems.hscic.gov.uk/data/ods")
+                            }
+                        },
+                        name = orgName,
+                        type = GetOrgType(orgTypeCode)
+                    };
 
+                    if ((String.IsNullOrEmpty(telephonenumber) == false) || (String.IsNullOrEmpty(fax) == false))
+                    {
+                        org.telecom = new Contacts();
+                        Contact contact = null;
+
+                        if (String.IsNullOrEmpty(telephonenumber) == false)
+                        {
+                            contact = new Contact
+                            {
+                                system = EnumContactSystem.phone,
+                                use = EnumContactUse.work,
+                                value = telephonenumber
+                            };
+                            org.telecom.Add(contact);
+                        }
+
+                        if (String.IsNullOrEmpty(fax) == false)
+                        {
+                            contact = new Contact
+                            {
+                                system = EnumContactSystem.fax,
+                                use = EnumContactUse.work,
+                                value = fax
+                            };
+                            org.telecom.Add(contact);
+                        }
+                    }
+
+                    item.Tag = org;
                 }
             }
 
             listViewOrgs.EndUpdate();
         }
 
-        private void ParsePostalAddress(ListViewItem item, String postaladdress)
+        private EnumOrganizationType GetOrgType(String orgTypeCode)
         {
+            EnumOrganizationType orgType = EnumOrganizationType.prov;
+
+            if (orgTypeCode == "PR")                    //  GP practice
+                orgType = EnumOrganizationType.prov;    
+            else if (orgTypeCode == "PT")               //  PCT
+                orgType = EnumOrganizationType.prov;
+            else if (orgTypeCode == "TR")               //  NHS Trust
+                orgType = EnumOrganizationType.prov;
+            else if (orgTypeCode == "PP")               //  Independent
+                orgType = EnumOrganizationType.prov;
+
+            return orgType;
+        }
+
+        private void ParsePostalAddress(ListViewItem item, String postaladdress, out String street, out String town, out String county)
+        {
+            street = String.Empty;
+            town = String.Empty;
+            county = String.Empty;
+
             String[] addressItems = postaladdress.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (addressItems.Length < 3)
             {
                 if (addressItems.Length == 2)
                 {
-                    item.SubItems.Add("");
-                    item.SubItems.Add(addressItems[0]);
-                    item.SubItems.Add("");  // postcode
-                    item.SubItems.Add(addressItems[1]);
+                    town = addressItems[0];
+                    county = addressItems[1];
                 }
                 else
-                {
-                    item.SubItems.Add(postaladdress);
-                    item.SubItems.Add("");
-                    item.SubItems.Add("");  // postcode
-                    item.SubItems.Add("");
-                }
-                return;
+                    street = postaladdress;
             }
-
-            String county = addressItems[addressItems.Length - 1].Trim();
-            String town = addressItems[addressItems.Length - 2].Trim();
-            String street = String.Empty;
-            for (int i = 0; i < (addressItems.Length - 2); i++)
+            else
             {
-                if (street != String.Empty)
-                    street += ",";
+                county = addressItems[addressItems.Length - 1].Trim();
+                town = addressItems[addressItems.Length - 2].Trim();
+                street = String.Empty;
 
-                street += addressItems[i].Trim();
+                for (int i = 0; i < (addressItems.Length - 2); i++)
+                {
+                    if (street != String.Empty)
+                        street += ",";
+
+                    street += addressItems[i].Trim();
+                }
             }
 
-            item.SubItems.Add(street);
-            item.SubItems.Add(town);
-            item.SubItems.Add("");  // postcode
-            item.SubItems.Add(county);
         }
 
         private void listViewOrgs_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -379,7 +466,38 @@ namespace fhirtestdatagen
             {
                 ListViewItem item = listViewOrgs.SelectedItems[0];
                 Organization organization = item.Tag as Organization;
-                //textBox1.Text = organization.JSON();
+                textBoxJSON.Text = organization.JSON();
+            }
+        }
+
+        private void butCopyJSON_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(textBoxJSON.Text);
+        }
+
+        private void butAllOrgs_Click(object sender, EventArgs e)
+        {
+            ClearListItems();
+
+            LoadandDisplaySDSFile(FILE_GPS, false);
+            LoadandDisplaySDSFile(FILE_PCTS, false);
+            LoadandDisplaySDSFile(FILE_TRUSTS, false);
+            LoadandDisplaySDSFile(FILE_INDEPENDENTS, false);
+        }
+
+        private void butExportOrgsToFile_Click(object sender, EventArgs e)
+        {
+            using (StreamWriter writer = new StreamWriter(FILE_EXPORT_ORGS))
+            {
+                foreach (ListViewItem item in listViewOrgs.Items)
+                {
+                    Organization org = item.Tag as Organization;
+                    String json = org.JSON();
+
+                    writer.WriteLine(json);
+                }
+
+                writer.Close();
             }
         }
     }
