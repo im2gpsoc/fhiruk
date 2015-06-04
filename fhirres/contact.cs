@@ -61,7 +61,7 @@ namespace FHIRUK.Resources
 #if false
         public Organization organization { get; set; }  //  <!-- ?? 0..1 Resource(Organization) Organization that is associated with the contact -->
 #endif
-        public Uri organization { get; set; }  //  <!-- ?? 0..1 Resource(Organization) Organization that is associated with the contact -->
+        public Reference organization { get; set; }  //  <!-- ?? 0..1 Resource(Organization) Organization that is associated with the contact -->
 
     }
 

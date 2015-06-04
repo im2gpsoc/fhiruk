@@ -39,14 +39,9 @@
             this.chPatientAddress = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chPatientMarital = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chPatientMultiBirth = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chPatientPhoto = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chPatientContact = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chPatientAnimal = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chPatientComms = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chPatientCareProvider = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chPatientManagOrg = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chPatientLink = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chPatientActive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelTabs = new System.Windows.Forms.Panel();
@@ -109,14 +104,9 @@
             this.chPatientAddress,
             this.chPatientMarital,
             this.chPatientMultiBirth,
-            this.chPatientPhoto,
             this.chPatientContact,
-            this.chPatientAnimal,
             this.chPatientComms,
-            this.chPatientCareProvider,
-            this.chPatientManagOrg,
-            this.chPatientLink,
-            this.chPatientActive});
+            this.chPatientCareProvider});
             this.listViewPatients.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewPatients.FullRowSelect = true;
             this.listViewPatients.GridLines = true;
@@ -175,20 +165,10 @@
             this.chPatientMultiBirth.Text = "MultiBirth";
             this.chPatientMultiBirth.Width = 56;
             // 
-            // chPatientPhoto
-            // 
-            this.chPatientPhoto.Text = "Photo";
-            this.chPatientPhoto.Width = 48;
-            // 
             // chPatientContact
             // 
             this.chPatientContact.Text = "Contact";
             this.chPatientContact.Width = 260;
-            // 
-            // chPatientAnimal
-            // 
-            this.chPatientAnimal.Text = "Animal";
-            this.chPatientAnimal.Width = 48;
             // 
             // chPatientComms
             // 
@@ -199,21 +179,6 @@
             // 
             this.chPatientCareProvider.Text = "CareProvider";
             this.chPatientCareProvider.Width = 120;
-            // 
-            // chPatientManagOrg
-            // 
-            this.chPatientManagOrg.Text = "ManagOrg";
-            this.chPatientManagOrg.Width = 120;
-            // 
-            // chPatientLink
-            // 
-            this.chPatientLink.Text = "Link";
-            this.chPatientLink.Width = 120;
-            // 
-            // chPatientActive
-            // 
-            this.chPatientActive.Text = "Active";
-            this.chPatientActive.Width = 48;
             // 
             // statusStrip1
             // 
@@ -599,13 +564,8 @@
         private System.Windows.Forms.ColumnHeader chPatientAddress;
         private System.Windows.Forms.ColumnHeader chPatientMarital;
         private System.Windows.Forms.ColumnHeader chPatientMultiBirth;
-        private System.Windows.Forms.ColumnHeader chPatientPhoto;
         private System.Windows.Forms.ColumnHeader chPatientContact;
-        private System.Windows.Forms.ColumnHeader chPatientAnimal;
         private System.Windows.Forms.ColumnHeader chPatientComms;
-        private System.Windows.Forms.ColumnHeader chPatientManagOrg;
-        private System.Windows.Forms.ColumnHeader chPatientLink;
-        private System.Windows.Forms.ColumnHeader chPatientActive;
         private System.Windows.Forms.Panel panelTabs;
         private System.Windows.Forms.TextBox textBoxJSON;
         private System.Windows.Forms.TabControl tabsMain;

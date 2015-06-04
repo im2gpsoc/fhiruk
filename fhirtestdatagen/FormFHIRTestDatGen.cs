@@ -29,8 +29,7 @@ namespace fhirtestdatagen
 
         private ListViewColumnSorter lvwColumnSorter = new ListViewColumnSorter();
 
-        HumanNameGenerator genNames = null;
-        AddressGenerator genAddresses = null;
+        private PatientGenerator genPatient = null;
         OrganizationGenerator genOrgs = null;
 
         public FormFHIRTestDatGen()
@@ -42,99 +41,9 @@ namespace fhirtestdatagen
         {
             for (int i = 0; i < PATIENT_COUNT; i++)
             {
-                Patient patient = GeneratePatient();
+                Patient patient = genPatient.GeneratePatient(genOrgs);
                 AddPatientToList(patient);
             }
-        }
-
-        private Patient GeneratePatient()
-        {
-            Patient patient = new Patient();
-
-            GenerateIdentifier(patient);
-            GenerateName(patient);
-            GenerateTelecom(patient);
-            GenerateDOB(patient);
-            GenerateAddress(patient);
-            GenerateMaritalStatus(patient);
-            GenerateMultiBirth(patient);
-            GenerateContact(patient, genOrgs);
-
-            return patient;
-        }
-
-        private void GenerateIdentifier(Patient patient)
-        {
-            patient.identifier = IdentifierGenerator.GetRandomIdentifiers();
-        }
-
-        private void GenerateName(Patient patient)
-        {
-            EnumGender gender;
-
-            patient.name = genNames.GetRandomNames(out gender);
-
-            patient.gender = gender;
-        }
-
-        private void GenerateTelecom(Patient patient)
-        {
-            String familyName = patient.name[0].family[0];
-            patient.telecom = TelecomGenerator.GetRandomContacts(familyName);
-        }
-
-        private void GenerateDOB(Patient patient)
-        {
-            Random randomGenerator = new Random(Guid.NewGuid().GetHashCode());
-
-            Int32 year = randomGenerator.Next(1920, 2015);
-            Int32 month = randomGenerator.Next(0, 12) + 1;
-            Int32 day;
-            switch (month)
-            {
-                case 4:
-                case 6:
-                case 9:
-                case 11:
-                    day = randomGenerator.Next(0, 30) + 1;
-                    break;
-                case 2:
-                    day = randomGenerator.Next(0, 28) + 1;
-                    break;
-                default:
-                    day = randomGenerator.Next(0, 31) + 1;
-                    break;
-            }
-
-            patient.birthDate = new DateTime(year, month, day);
-        }
-
-        private void GenerateAddress(Patient patient)
-        {
-            patient.address = genAddresses.GetRandomAddresses(EnumAddressUse.home);
-        }
-
-        private void GenerateMaritalStatus(Patient patient)
-        {
-            patient.maritalStatus = MaritalStatusGenerator.GetRandomMaritalStatus(patient.birthDate);
-        }
-
-        private void GenerateMultiBirth(Patient patient)
-        {
-            Random randomGenerator = new Random(Guid.NewGuid().GetHashCode());
-            // 90% single births, 9% twins. 1%triplets
-            Int32 r = randomGenerator.Next(0, 100);
-            if (r < 90)
-                patient.multipleBirth = 1;
-            else if (r < 99)
-                patient.multipleBirth = 2;
-            else
-                patient.multipleBirth = 3;
-        }
-
-        private void GenerateContact(Patient patient, OrganizationGenerator orgGen)
-        {
-            patient.contact = new PatientContactGenerator().GetRandomContacts(patient, orgGen);
         }
 
         private void AddPatientToList(Patient patient)
@@ -147,21 +56,21 @@ namespace fhirtestdatagen
             item.SubItems.Add(patient.telecom.ToString());
             item.SubItems.Add(patient.gender.ToString());
             item.SubItems.Add(patient.birthDate.ToShortDateString());
-            item.SubItems.Add(String.Empty);    // deceased
+            item.SubItems.Add(String.Empty);    // deceasedDateTime
             item.SubItems.Add(patient.address.ToString());
             //item.SubItems.Add(EnumConversion.MaritalStatusToString(patient.MaritalStatus));
             item.SubItems.Add(patient.maritalStatus.ToString());
             item.SubItems.Add(patient.multipleBirth.ToString());
-            item.SubItems.Add(String.Empty);    //  photo
-            item.SubItems.Add(patient.contact.ToString());    //  photo
+            item.SubItems.Add(patient.contact.ToString());
+            item.SubItems.Add(patient.communication.ToString());
+            item.SubItems.Add(patient.careProvider.ToString());
 
             item.Tag = patient;
         }
 
         private void FormFHIRTestDatGen_Load(object sender, EventArgs e)
         {
-            genNames = new HumanNameGenerator();
-            genAddresses = new AddressGenerator();
+            genPatient = new PatientGenerator();
             genOrgs = new OrganizationGenerator();
         }
 

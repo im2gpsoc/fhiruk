@@ -50,9 +50,17 @@ namespace fhirtestdatagen
             {
                 Organization org = orgGen.GetRandomOrganization();
                 if ((org != null) && (org.identifier != null) && (org.identifier.Count > 0))
-                    patientContact.organization = new Uri("Organization/" + org.identifier[0].value, UriKind.Relative);
+                    patientContact.organization = new Reference()
+                    {
+                        reference = new Uri("Organization/" + org.identifier[0].value, UriKind.Relative),
+                        display = org.ToString()
+                    };
                 else
-                    patientContact.organization = new Uri("/error", UriKind.Relative);
+                    patientContact.organization = new Reference()
+                    {
+                        reference = new Uri("/error", UriKind.Relative),
+                        display = "Invalid Organization object."
+                    };
             }
             else
             {

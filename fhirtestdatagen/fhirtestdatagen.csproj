@@ -58,6 +58,7 @@
     <Compile Include="gen_marital.cs" />
     <Compile Include="gen_name.cs" />
     <Compile Include="gen_organization.cs" />
+    <Compile Include="gen_patient.cs" />
     <Compile Include="gen_patientcontact.cs" />
     <Compile Include="gen_telecom.cs" />
     <Compile Include="Program.cs" />
